@@ -57,14 +57,14 @@ func (l *LinkedList) Add(v int) {
 }
 
 func (l *LinkedList) Process() bool {
-    cur := l.Head
+	cur := l.Head
 	var prev *Node
-    
+
 	for cur != nil && cur.Next != nil && cur.Next.Next != nil && cur.Next.Next.Next != nil {
 		if cur.Value == 1 &&
-			cur.Next.Value == 2 &&
-			cur.Next.Next.Value == 3 &&
-			cur.Next.Next.Next.Value == 1 {
+		cur.Next.Value == 2 &&
+		cur.Next.Next.Value == 3 &&
+		cur.Next.Next.Next.Value == 1 {
 			if prev == nil {
 				l.Head = cur.Next.Next.Next.Next
 			} else {
@@ -77,10 +77,11 @@ func (l *LinkedList) Process() bool {
 			l.Count -= 4
 			return true
 		} else {
-			prev = cur
-			cur = cur.Next
+		prev = cur
+		cur = cur.Next
 		}
-	}
+    }
+	
     return false
 }
 
@@ -91,11 +92,11 @@ func solution(ingredient []int) int {
 		linkedList.Add(v)
 	}
     
-    result := 0
+   	result := 0
     
-    for linkedList.Process() {
-        result++
-    }
+    	for linkedList.Process() {
+        	result++
+    	}
 
 	return result
 }
