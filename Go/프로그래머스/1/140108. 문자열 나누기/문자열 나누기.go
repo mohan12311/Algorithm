@@ -5,7 +5,7 @@ func solution(s string) int {
     firstRuneSetted := false
     result := 0
     
-    for i, char := range s {
+    for _, char := range s {
         if !firstRuneSetted {
             firstRune = char
             firstRuneSetted = true
@@ -22,11 +22,12 @@ func solution(s string) int {
             firstCounter, otherCounter = 0, 0
             firstRuneSetted = false
             firstRune = '0'
-        } else if i == len(s) - 1 {
-            result++
-            break
         }
         
+    }
+    
+    if firstCounter != 0 {
+        result++
     }
     
     return result
