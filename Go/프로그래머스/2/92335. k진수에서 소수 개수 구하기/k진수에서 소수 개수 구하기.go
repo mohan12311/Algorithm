@@ -1,87 +1,40 @@
 import (
-    "strings"
-    "strconv"
-    "math"
+	"strconv"
+	"strings"
 )
 
-type stack struct {
-    value []string
-    count int
-}
-
-func newStack() *stack {
-    return &stack{[]string{}, 0}
-}
-
-func (s *stack) Push(char rune) {
-    s.value = append(s.value, string(char))
-}
-
-func (s *stack) Pop() {
-    if s.IsEmpty() {
-        return
-    }
-    number, _ := strconv.Atoi(strings.Join(s.value, ""))
-    s.value = []string{}
-    if isPrime(number) {
-        s.count++
-    }
-}
-
-func (s *stack) Len() int {
-    return len(s.value)
-}
-
-func (s *stack) IsEmpty() bool {
-    return len(s.value) == 0
-}
-
-func (s *stack) Process(char rune) {
-    if char == '0' && !s.IsEmpty() {
-        s.Pop()
-    } else {
-        s.Push(char)
-    }
-} 
-
 func solution(n int, k int) int {
-    s := converter(n, k)
-    stack := newStack()
-    
-    for _, char := range s {
-        stack.Process(char)
-    }
-    
-    if !stack.IsEmpty() {
-        stack.Pop()
-    }
-    
-    return stack.count
-}
-
-func isPrime(num int) bool {
-    
-    if num < 2 {
-        return false
-    }
-    
-    sqrt := int(math.Sqrt(float64(num)))
-    
-    for i := 2; i <= sqrt; i++ {
-        if num % i == 0 { return false }
-    }
-    
-    return true
-}
-
-func converter(n, k int) string {
-    res := []string{}
-    
-	for n > 0 {
-		temp := n % k
-		res = append([]string{strconv.Itoa(temp)}, res...)
-		n /= k
+	// Convert n to base k
+	baseK := strconv.FormatInt(int64(n), k)
+	
+	// Split the string by '0' and count primes
+	parts := strings.Split(baseK, "0")
+	count := 0
+	for _, part := range parts {
+		if part != "" {
+			num, _ := strconv.ParseInt(part, 10, 64)
+			if isPrime(int(num)) {
+				count++
+			}
+		}
 	}
+	
+	return count
+}
 
-	return strings.Join(res, "")
+func isPrime(n int) bool {
+	if n <= 1 {
+		return false }
+	if n <= 3 {
+		return true
+	}
+	if n%2 == 0 || n%3 == 0 {
+		return false
+	}
+	for i := 5; i*i <= n; i += 6 {
+		if n%i == 0 || n%(i+2) == 0 {
+			return false
+		}
+	}
+	return true
 }
